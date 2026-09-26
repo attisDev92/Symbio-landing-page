@@ -1,3 +1,5 @@
+const CONTACT_EMAIL = "attis.alejandro@gmail.com";
+
 function Contacto() {
   const [form, setForm] = useState({ nombre: '', empresa: '', telefono: '', correo: '', equipos: '' });
   const [status, setStatus] = useState('idle'); // idle | sending | done | error
@@ -21,14 +23,33 @@ function Contacto() {
     if (!form.nombre || !form.telefono) { return; }
     setStatus('sending');
     const record = { ...form, creado: new Date().toISOString() };
+    
     try {
       if (dbRef.current) {
         const id = 'lead_' + Date.now();
         await dbRef.current.doc('leads/' + id).set(record);
       }
+
+      await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          _subject: `Nuevo lead Symbio: ${form.nombre} - ${form.empresa || 'Organización no especificada'}`,
+          _template: "table",
+          Nombre: form.nombre,
+          Organización: form.empresa || "No especificada",
+          Teléfono: form.telefono,
+          Correo: form.correo || "No especificado",
+          Mensaje_o_Descripción: form.equipos || "Sin mensaje adicional"
+        })
+      });
+
       setStatus('done');
     } catch (err) {
-      setStatus('done'); // igual mostramos confirmación; el dato ya viaja por WhatsApp si lo prefieren
+      setStatus('done'); // Se muestra confirmación y siempre queda el canal de WhatsApp disponible
     }
   }, [form]);
 
