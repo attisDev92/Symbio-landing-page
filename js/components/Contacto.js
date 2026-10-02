@@ -1,7 +1,33 @@
 const CONTACT_EMAIL = "attis.alejandro@gmail.com";
 
+const COUNTRY_CODES = [
+  { code: "+593", label: "🇪🇨 +593" },
+  { code: "+57", label: "🇨🇴 +57" },
+  { code: "+52", label: "🇲🇽 +52" },
+  { code: "+51", label: "🇵🇪 +51" },
+  { code: "+56", label: "🇨🇱 +56" },
+  { code: "+54", label: "🇦🇷 +54" },
+  { code: "+507", label: "🇵🇦 +507" },
+  { code: "+506", label: "🇨🇷 +506" },
+  { code: "+502", label: "🇬🇹 +502" },
+  { code: "+591", label: "🇧🇴 +591" },
+  { code: "+595", label: "🇵🇾 +595" },
+  { code: "+598", label: "🇺🇾 +598" },
+  { code: "+58", label: "🇻🇪 +58" },
+  { code: "+1", label: "🇺🇸 +1" },
+  { code: "+34", label: "🇪🇸 +34" },
+  { code: "+", label: "🌐 +" },
+];
+
 function Contacto() {
-  const [form, setForm] = useState({ nombre: '', empresa: '', telefono: '', correo: '', equipos: '' });
+  const [form, setForm] = useState({
+    nombre: '',
+    empresa: '',
+    codigoPais: '+593',
+    telefono: '',
+    correo: '',
+    equipos: ''
+  });
   const [status, setStatus] = useState('idle'); // idle | sending | done | error
   const dbRef = useRef(null);
 
@@ -22,7 +48,10 @@ function Contacto() {
     e.preventDefault();
     if (!form.nombre || !form.telefono) { return; }
     setStatus('sending');
-    const record = { ...form, creado: new Date().toISOString() };
+
+    const cleanNumber = form.telefono.trim();
+    const fullPhone = form.codigoPais === '+' ? cleanNumber : `${form.codigoPais} ${cleanNumber}`;
+    const record = { ...form, telefonoCompleto: fullPhone, creado: new Date().toISOString() };
     
     try {
       if (dbRef.current) {
@@ -41,7 +70,7 @@ function Contacto() {
           _template: "table",
           Nombre: form.nombre,
           Organización: form.empresa || "No especificada",
-          Teléfono: form.telefono,
+          Teléfono: fullPhone,
           Correo: form.correo || "No especificado",
           Mensaje_o_Descripción: form.equipos || "Sin mensaje adicional"
         })
@@ -77,8 +106,29 @@ function Contacto() {
               </div>
               <div className="field-row">
                 <div>
-                  <label htmlFor="telefono">Teléfono</label>
-                  <input id="telefono" required value={form.telefono} onChange={onChange('telefono')} placeholder="09XXXXXXXX" />
+                  <label htmlFor="telefono">Teléfono / WhatsApp</label>
+                  <div className="phone-input-group">
+                    <select
+                      id="codigoPais"
+                      aria-label="Código de país"
+                      value={form.codigoPais}
+                      onChange={onChange('codigoPais')}
+                    >
+                      {COUNTRY_CODES.map((c) => (
+                        <option key={c.code} value={c.code}>
+                          {c.label}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      id="telefono"
+                      type="tel"
+                      required
+                      value={form.telefono}
+                      onChange={onChange('telefono')}
+                      placeholder={form.codigoPais === '+593' ? '09XXXXXXXX' : 'Número de teléfono'}
+                    />
+                  </div>
                 </div>
                 <div>
                   <label htmlFor="correo">Correo (opcional)</label>
