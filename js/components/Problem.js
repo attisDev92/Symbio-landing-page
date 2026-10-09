@@ -7,7 +7,7 @@ function Problem() {
       </div>
       <div className="stat-row stat-row--problem">
         <div className="stat reveal"><CountUp value="24/7" /><span>SOPORTE DISPONIBLE PARA TUS CLIENTES DIRECTAMENTE POR WHATSAPP</span></div>
-        <div className="stat reveal"><CountUp value="70%" /><span>DE LOS CASOS DE SOPORTE PUEDEN RESOLVERSE SIN VISITAS TÉCNICAS</span></div>
+        <div className="stat reveal"><CountUp value="60%" /><span>DE LOS CASOS DE SOPORTE PUEDEN RESOLVERSE SIN VISITAS TÉCNICAS</span></div>
         <div className="stat reveal"><CountUp value="+250" /><span>CASOS AL MES QUE PUEDEN SER ATENDIDOS AUTOMATICAMENTE</span></div>
         <div className="stat reveal"><CountUp value="30%" /><span>DEL TIEMPO DE UN ESPECIALISTA LIBERADO</span></div>
       </div>

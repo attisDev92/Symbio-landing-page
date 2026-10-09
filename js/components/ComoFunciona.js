@@ -91,7 +91,7 @@ function ComoFunciona() {
     <section className="wrap" id="como-funciona">
       <div className="section-head reveal">
         <h2>De la falla a la solución, en una sola conversación</h2>
-        <p>Todo el ciclo ocurre dentro de WhatsApp: el cliente nunca necesita aprender una herramienta nueva.</p>
+        <p>Sin apps nuevas para el operador. Cero fricción..</p>
       </div>
       <div className="flow-scrolly-grid">
         <StepList steps={steps} activeStep={activeStep} stepRefs={stepRefs} />

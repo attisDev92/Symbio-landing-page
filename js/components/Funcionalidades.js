@@ -11,7 +11,7 @@ function Funcionalidades() {
   return (
     <section className="wrap" id="funcionalidades">
       <div className="section-head reveal">
-        <h2>Una plataforma acompañando en cada parte del ciclo de soporte</h2>
+        <h2>Más que una plataforma, más que un simple agente. Symbio es tu partner en el ciclo completo de soporte</h2>
         <p>Lo que hoy se coordina con llamadas y mensajes, Symbio lo ordena en un solo flujo.</p>
       </div>
       <div className="features">

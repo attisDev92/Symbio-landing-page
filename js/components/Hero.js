@@ -32,7 +32,7 @@ function Hero() {
       <div className="hero-logo" ref={svgWrapRef}>
         <Logo id="hero" />
       </div>
-      <h1>Tu IA de WhatsApp para equipos médicos</h1>
+      <h1>Inteligencia que resuelve</h1>
       <p className="lead">Symbio guía a los usuarios paso a paso para resolver incidentes, si se requiere escala al especialista correcto y mantiene trazabilidad de cada intervención.</p>
       <div className="hero-actions">
         <a className="btn btn-primary" href={waLink("Hola, quiero conocer más sobre Symbio")} target="_blank" rel="noopener noreferrer">Hablar por WhatsApp</a>
