@@ -33,7 +33,7 @@ function Hero() {
         <Logo id="hero" />
       </div>
       <h1>Inteligencia que resuelve</h1>
-      <p className="lead">Symbio guía a los usuarios paso a paso para resolver incidentes, si se requiere escala al especialista correcto y mantiene trazabilidad de cada intervención.</p>
+      <p className="lead">Symbio guía a los usuarios de equipos médicos en el paso a paso.</p>
       <div className="hero-actions">
         <a className="btn btn-primary" href={waLink("Hola, quiero conocer más sobre Symbio")} target="_blank" rel="noopener noreferrer">Hablar por WhatsApp</a>
         <a className="btn btn-ghost" href="#contacto">Solicitar una demo</a>
