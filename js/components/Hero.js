@@ -1,4 +1,5 @@
 function Hero() {
+  const { t } = useTranslation();
   const svgWrapRef = useRef(null);
   useEffect(() => {
     const strokeElements = svgWrapRef.current ? svgWrapRef.current.querySelectorAll('.logo-strokes path, .logo-strokes > circle') : [];
@@ -32,11 +33,11 @@ function Hero() {
       <div className="hero-logo" ref={svgWrapRef}>
         <Logo id="hero" />
       </div>
-      <h1>Inteligencia que resuelve</h1>
-      <p className="lead">Symbio guía a los usuarios de equipos médicos en el paso a paso.</p>
+      <h1>{t('hero.title')}</h1>
+      <p className="lead">{t('hero.lead')}</p>
       <div className="hero-actions">
-        <a className="btn btn-primary" href={waLink("Hola, quiero conocer más sobre Symbio")} target="_blank" rel="noopener noreferrer">Hablar por WhatsApp</a>
-        <a className="btn btn-ghost" href="#contacto">Solicitar una demo</a>
+        <a className="btn btn-primary" href={waLink(t('hero.waMsg'))} target="_blank" rel="noopener noreferrer">{t('hero.waBtn')}</a>
+        <a className="btn btn-ghost" href="#contacto">{t('hero.demoBtn')}</a>
       </div>
     </header>
   );

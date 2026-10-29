@@ -1,5 +1,3 @@
-const senderLabel = { laboratorio: "Laboratorio", soporte: "Soporte", coordinador: "Coordinador" };
-
 function buildThread(steps, upToIndex) {
   const flat = [];
   for (let s = 0; s <= upToIndex; s++) {
@@ -11,9 +9,12 @@ function buildThread(steps, upToIndex) {
 }
 
 function PhoneMockup({ steps, activeStep }) {
+  const { t } = useTranslation();
+  const senderLabels = t('stepsSection.senderLabels') || {};
   const current = steps[activeStep];
   const isDashboard = !!current?.dashboard;
   const thread = isDashboard ? [] : buildThread(steps, activeStep);
+  const kpis = t('stepsSection.dashboard.kpis') || [];
 
   let lastFrom = null;
 
@@ -32,18 +33,20 @@ function PhoneMockup({ steps, activeStep }) {
             <Logo id="phone" className="phone-logo" />
             <div className="who">
               <b>Symbio</b>
-              <span>{isDashboard ? "Panel de casos" : "en línea"}</span>
+              <span>{isDashboard ? t('stepsSection.phoneStatus.dashboard') : t('stepsSection.phoneStatus.online')}</span>
             </div>
           </div>
 
           {isDashboard ? (
             <div className="phone-dashboard in-view">
-              <h4>Resumen del mes</h4>
+              <h4>{t('stepsSection.dashboard.title')}</h4>
               <div className="dash-kpis">
-                <div className="dash-kpi"><b>128</b><span>Casos atendidos</span></div>
-                <div className="dash-kpi"><b>96%</b><span>Resueltos por chat</span></div>
-                <div className="dash-kpi"><b>4.9</b><span>Satisfacción</span></div>
-                <div className="dash-kpi"><b>18</b><span>Visitas en sitio</span></div>
+                {kpis.map((k, idx) => (
+                  <div key={idx} className="dash-kpi">
+                    <b>{k.value}</b>
+                    <span>{k.label}</span>
+                  </div>
+                ))}
               </div>
               <div className="dash-chart" aria-hidden="true">
                 <span style={{ height: '35%' }}></span>
@@ -65,7 +68,7 @@ function PhoneMockup({ steps, activeStep }) {
                   return (
                     <React.Fragment key={`${m.stepIndex}-${m.msgIndex}`}>
                       {showLabel && (
-                        <div className={`chat-group-label from-${m.from}`}>{senderLabel[m.from]}</div>
+                        <div className={`chat-group-label from-${m.from}`}>{senderLabels[m.from] || m.from}</div>
                       )}
                       <ChatBubble
                         from={m.from}
@@ -78,7 +81,7 @@ function PhoneMockup({ steps, activeStep }) {
                 })}
               </div>
               <div className="phone-composer">
-                <div className="field">Escribe un mensaje…</div>
+                <div className="field">{t('stepsSection.composerPlaceholder')}</div>
                 <div className="send">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 2 11 13" />

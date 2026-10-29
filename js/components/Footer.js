@@ -1,4 +1,5 @@
 function Footer() {
+  const { t } = useTranslation();
   return (
     <footer>
       <div className="wrap footer-inner">
@@ -6,13 +7,11 @@ function Footer() {
         <div className="footer-col-left">
           <Logo id="foot" className="brand" style={{ width: 110 }} />
           <p>
-            Symbio es un agente IA de soporte técnico de primer nivel y no reemplaza al servicio técnico especializado. Toda intervención sobre componentes eléctricos o fuera del manual debe realizarla personal calificado.
+            {t('footer.disclaimer')}
           </p>
           <div className="footer-location">
-            <span>Ecuador, con expansión a Latinoamérica</span>
+            <span>{t('footer.location')}</span>
           </div>
-
-
         </div>
 
         {/* Columna Derecha: Región/expansión, políticas y red profesional */}
@@ -32,12 +31,12 @@ function Footer() {
 
           <div className="footer-nav-links">
             <a href="privacy.html" className="footer-link">
-              Política de privacidad y protección de datos
+              {t('footer.privacy')}
             </a>
           </div>
 
           <span className="footer-copy">
-            © {new Date().getFullYear()} Symbio. Todos los derechos reservados.
+            © {new Date().getFullYear()} {t('footer.rights')}
           </span>
 
         </div>

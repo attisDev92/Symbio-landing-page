@@ -1,7 +1,7 @@
 function App() {
   useReveal();
   return (
-    <React.Fragment>
+    <LanguageProvider>
       <ParticlesBackground />
       <Nav />
       <Hero />
@@ -10,7 +10,7 @@ function App() {
       <Funcionalidades />
       <Contacto />
       <Footer />
-    </React.Fragment>
+    </LanguageProvider>
   );
 }
 

@@ -8,44 +8,46 @@ function Icon({ d, size = 28 }) {
 }
 
 function Funcionalidades() {
+  const { t } = useTranslation();
+  const items = t('features.items') || [];
   return (
     <section className="wrap" id="funcionalidades">
       <div className="section-head reveal">
-        <h2>Más que una plataforma, más que un simple agente. Symbio es tu partner en el ciclo completo de soporte</h2>
-        <p>Lo que hoy se coordina con llamadas y mensajes, Symbio lo ordena en un solo flujo.</p>
+        <h2>{t('features.title')}</h2>
+        <p>{t('features.subtitle')}</p>
       </div>
       <div className="features">
         <div className="feat big reveal">
           <div>
             <Icon d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" size={36} />
-            <h3>Soporte guiado por la base de conocimiento de la empresa</h3>
-            <p>El agente responde solo con base en el conocimiento de la empresa. Si no hay una fuente que respalde la solución, escala en vez de improvisar.</p>
+            <h3>{items[0]?.title}</h3>
+            <p>{items[0]?.desc}</p>
           </div>
         </div>
         <div className="feat reveal">
           <Icon d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-          <h3>Asignación por reglas de negocio</h3>
-          <p>Certificación, turno, carga del día y SLA deciden el especialista asignado para resolver un caso presencial.</p>
+          <h3>{items[1]?.title}</h3>
+          <p>{items[1]?.desc}</p>
         </div>
         <div className="feat reveal">
           <Icon d="M12 8v4l3 3M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z" />
-          <h3>Turnos y guardias</h3>
-          <p>El agente responde de forma continua 24/7 y se integra con los turnos de tus técnicos en terreno para escalar de forma correcta.</p>
+          <h3>{items[2]?.title}</h3>
+          <p>{items[2]?.desc}</p>
         </div>
         <div className="feat reveal">
           <Icon d="M3 3v18h18M8 17V9m5 8V5m5 12v-6" />
-          <h3>Panel para el proveedor</h3>
-          <p>Configura equipos, sedes, ingenieros, turnos y reglas de SLA sin depender de hojas sueltas.</p>
+          <h3>{items[3]?.title}</h3>
+          <p>{items[3]?.desc}</p>
         </div>
         <div className="feat reveal">
           <Icon d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z" />
-          <h3>Trazabilidad total</h3>
-          <p>Cada acción, humana o del agente, queda registrada con actor, fecha y datos, lista para auditoría.</p>
+          <h3>{items[4]?.title}</h3>
+          <p>{items[4]?.desc}</p>
         </div>
         <div className="feat reveal">
           <Icon d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z" />
-          <h3>Aprendizaje continuo</h3>
-          <p>Las soluciones de campo alimentan la base de conocimiento de cada modelo, caso a caso.</p>
+          <h3>{items[5]?.title}</h3>
+          <p>{items[5]?.desc}</p>
         </div>
       </div>
     </section>
