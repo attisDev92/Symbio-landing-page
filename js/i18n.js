@@ -14,7 +14,7 @@ const translations = {
     },
     hero: {
       title: "Intelligence that resolves",
-      lead: "Symbio guides medical equipment users step-by-step.",
+      lead: "Symbio guides medical equipment users step-by-step to resolve incidents.",
       waBtn: "Chat on WhatsApp",
       waMsg: "Hello, I'd like to learn more about Symbio",
       demoBtn: "Request a demo"
@@ -170,7 +170,7 @@ const translations = {
     },
     hero: {
       title: "Inteligencia que resuelve",
-      lead: "Symbio guía a los usuarios de equipos médicos en el paso a paso.",
+      lead: "Symbio guía a los usuarios de equipos médicos en el paso a paso para resolver incidentes.",
       waBtn: "Hablar por WhatsApp",
       waMsg: "Hola, quiero conocer más sobre Symbio",
       demoBtn: "Solicitar una demo"
@@ -326,7 +326,7 @@ const translations = {
     },
     hero: {
       title: "Inteligência que resolve",
-      lead: "Symbio orienta usuários de equipamentos médicos passo a passo.",
+      lead: "Symbio orienta usuários de equipamentos médicos passo a passo para resolver incidentes.",
       waBtn: "Falar pelo WhatsApp",
       waMsg: "Olá, gostaria de saber mais sobre o Symbio",
       demoBtn: "Solicitar uma demo"
@@ -485,7 +485,7 @@ function safeSetStorage(key, val) {
     if (window.localStorage) {
       window.localStorage.setItem(key, val);
     }
-  } catch (e) {}
+  } catch (e) { }
 }
 
 function detectInitialLanguage() {
@@ -529,7 +529,7 @@ function detectInitialLanguage() {
 
 const LanguageContext = createContext({
   lang: 'en',
-  setLang: () => {},
+  setLang: () => { },
   t: (key) => key,
   translations: translations.en
 });
@@ -547,7 +547,7 @@ function LanguageProvider({ children }) {
         url.searchParams.set('lang', newLang);
         window.history.replaceState({}, '', url);
       }
-    } catch (e) {}
+    } catch (e) { }
   }, []);
 
   useEffect(() => {
@@ -562,12 +562,12 @@ function LanguageProvider({ children }) {
           metaDesc.setAttribute('content', translations[lang].meta.description);
         }
       }
-    } catch (e) {}
+    } catch (e) { }
   }, [lang]);
 
   const t = useCallback((path) => {
     const keys = path.split('.');
-    
+
     // Check current language
     let current = translations[lang];
     for (const key of keys) {
@@ -610,3 +610,4 @@ if (typeof window !== 'undefined') {
   window.LanguageProvider = LanguageProvider;
   window.useTranslation = useTranslation;
 }
+

@@ -55,7 +55,7 @@ function Contacto() {
     const cleanNumber = form.telefono.trim();
     const fullPhone = form.codigoPais === '+' ? cleanNumber : `${form.codigoPais} ${cleanNumber}`;
     const record = { ...form, telefonoCompleto: fullPhone, creado: new Date().toISOString() };
-    
+
     try {
       if (dbRef.current) {
         const id = 'lead_' + Date.now();

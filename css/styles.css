@@ -222,13 +222,16 @@ nav .cta {
   .nav-actions {
     gap: 10px;
   }
+
   .lang-switcher {
     padding: 2px;
   }
+
   .lang-switcher button {
     padding: 3px 6px;
     font-size: 10.5px;
   }
+
   nav .cta {
     padding: 7px 13px;
     font-size: 13px;
@@ -239,9 +242,11 @@ nav .cta {
   nav .row {
     padding: 0 12px;
   }
+
   .nav-actions {
     gap: 6px;
   }
+
   .lang-switcher button {
     padding: 3px 5px;
     font-size: 10px;
@@ -269,7 +274,7 @@ nav .cta {
   pointer-events: auto;
 }
 
-#root > *:not(.particles-bg):not(nav) {
+#root>*:not(.particles-bg):not(nav) {
   position: relative;
   z-index: 1;
 }
