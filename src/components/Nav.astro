@@ -1,0 +1,46 @@
+---
+import Logo from './Logo.astro';
+import { LANG_PATHS } from '../lib/site.js';
+interface Props { lang: 'en' | 'es' | 'pt'; t: any; }
+const { lang, t } = Astro.props;
+const langs = [
+  { code: 'en', label: 'EN', name: 'English' },
+  { code: 'es', label: 'ES', name: 'Español' },
+  { code: 'pt', label: 'PT', name: 'Português' },
+];
+---
+<nav id="site-nav">
+  <div class="row">
+    <a href={LANG_PATHS[lang]} aria-label={t.nav.ariaHome} style="display:inline-flex;align-items:center;text-decoration:none">
+      <Logo id="nav" class="brand nav-logo" style="width:110px" />
+    </a>
+    <div class="links">
+      <a href="#como-funciona">{t.nav.howItWorks}</a>
+      <a href="#funcionalidades">{t.nav.features}</a>
+      <a href="#faq">{t.nav.faq}</a>
+    </div>
+    <div class="nav-actions">
+      <div class="lang-switcher" role="group" aria-label="Language selector">
+        {langs.map((l) => (
+          <a
+            href={LANG_PATHS[l.code]}
+            hreflang={l.code}
+            lang={l.code}
+            class={lang === l.code ? 'active' : ''}
+            aria-label={l.name}
+            aria-current={lang === l.code ? 'page' : undefined}
+            data-lang={l.code}
+          >{l.label}</a>
+        ))}
+      </div>
+      <a class="cta" href="#contacto" data-cta="nav">{t.nav.cta}</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const nav = document.getElementById('site-nav');
+  const onScroll = () => nav?.classList.toggle('scrolled', window.scrollY > 12);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>

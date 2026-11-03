@@ -1,0 +1,47 @@
+---
+import Logo from './Logo.astro';
+import { waLink } from '../lib/site.js';
+interface Props { t: any; }
+const { t } = Astro.props;
+---
+<header class="hero">
+  <div class="hero-logo" id="hero-logo">
+    <Logo id="hero" />
+  </div>
+  <h1>
+    <span class="hero-eyebrow">{t.hero.eyebrow}</span>
+    {t.hero.title}
+  </h1>
+  <p class="lead">{t.hero.lead}</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href={waLink(t.hero.waMsg)} target="_blank" rel="noopener noreferrer" data-wa="hero">{t.hero.waBtn}</a>
+    <a class="btn btn-ghost" href="#contacto" data-cta="hero">{t.hero.demoBtn}</a>
+  </div>
+</header>
+
+<script>
+  // Animación de trazado del logo (equivalente al useEffect del Hero original).
+  const wrap = document.getElementById('hero-logo');
+  if (wrap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    wrap.querySelectorAll<SVGGeometryElement>('.logo-strokes path, .logo-strokes > circle').forEach((p, i) => {
+      const len = p.getTotalLength ? p.getTotalLength() : 200;
+      p.style.strokeDasharray = String(len);
+      p.style.strokeDashoffset = String(len);
+      p.getBoundingClientRect();
+      p.style.transition = `stroke-dashoffset 3.8s cubic-bezier(.22,.84,.36,1) ${i * 120}ms`;
+      requestAnimationFrame(() => { p.style.strokeDashoffset = '0'; });
+    });
+    const popIn = (selector: string, baseDelay: number) => {
+      wrap.querySelectorAll<SVGElement>(selector).forEach((n, i) => {
+        n.style.opacity = '0';
+        n.style.transformOrigin = 'center';
+        n.style.transform = 'scale(0)';
+        n.style.transition = 'opacity .8s ease, transform .8s cubic-bezier(.34,1.56,.64,1)';
+        setTimeout(() => { n.style.opacity = '1'; n.style.transform = 'scale(1)'; }, baseDelay + i * 180);
+      });
+    };
+    popIn('.logo-nodes circle', 2800);
+    popIn('.logo-inner-nodes circle', 3160);
+  }
+</script>
+

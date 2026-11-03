@@ -1,0 +1,13 @@
+---
+import ComoFuncionaIsland from './ComoFunciona.jsx';
+interface Props { t: any; }
+const { t } = Astro.props;
+---
+<section class="wrap" id="como-funciona">
+  <div class="section-head reveal">
+    <h2>{t.stepsSection.title}</h2>
+    <p>{t.stepsSection.subtitle}</p>
+  </div>
+  <ComoFuncionaIsland client:visible s={t.stepsSection} />
+</section>
+

@@ -1,0 +1,20 @@
+---
+// Sección FAQ: texto estático en HTML (citable por buscadores e IA) + JSON-LD FAQPage en el layout.
+interface Props { t: any; }
+const { t } = Astro.props;
+---
+<section class="wrap" id="faq">
+  <div class="section-head reveal">
+    <h2>{t.faq.title}</h2>
+    <p>{t.faq.subtitle}</p>
+  </div>
+  <div class="faq-list">
+    {t.faq.items.map((item: any, i: number) => (
+      <details class="faq-item reveal" open={i === 0}>
+        <summary><h3>{item.q}</h3></summary>
+        <p>{item.a}</p>
+      </details>
+    ))}
+  </div>
+</section>
+

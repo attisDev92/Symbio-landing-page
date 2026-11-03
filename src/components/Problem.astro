@@ -1,0 +1,20 @@
+---
+import CountUp from './CountUp.jsx';
+interface Props { t: any; }
+const { t } = Astro.props;
+---
+<section class="wrap" id="problema">
+  <div class="section-head reveal">
+    <h2>{t.problem.title}</h2>
+    <p>{t.problem.lead}</p>
+  </div>
+  <div class="stat-row stat-row--problem">
+    {t.problem.stats.map((s: any) => (
+      <div class="stat reveal">
+        <CountUp client:visible value={s.value} />
+        <span>{s.text}</span>
+      </div>
+    ))}
+  </div>
+</section>
+

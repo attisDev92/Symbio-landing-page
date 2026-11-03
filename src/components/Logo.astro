@@ -1,0 +1,7 @@
+---
+import { logoSvg } from '../lib/site.js';
+interface Props { id: string; class?: string; style?: string; }
+const { id, class: className, style } = Astro.props;
+---
+<div class={className} style={style} set:html={logoSvg(id)} />
+

@@ -1,0 +1,13 @@
+---
+import ContactoIsland from './Contacto.jsx';
+interface Props { lang: 'en' | 'es' | 'pt'; t: any; }
+const { lang, t } = Astro.props;
+---
+<section class="wrap" id="contacto">
+  <div class="section-head reveal">
+    <h2>{t.contact.title}</h2>
+    <p>{t.contact.subtitle}</p>
+  </div>
+  <ContactoIsland client:visible c={t.contact} lang={lang} />
+</section>
+

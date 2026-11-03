@@ -1,0 +1,214 @@
+---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/quicksand/500.css';
+import '@fontsource/quicksand/600.css';
+import '@fontsource/quicksand/700.css';
+import { SITE_URL, GTM_ID, LANG_PATHS, HREFLANG, LINKEDIN_URL, WHATSAPP_NUMBER, absUrl } from '../lib/site.js';
+import { translations } from '../i18n/translations.js';
+
+interface Props {
+  lang: 'en' | 'es' | 'pt';
+  /** Solo la raíz (/) redirige según el idioma del navegador. */
+  detectLang?: boolean;
+  noindex?: boolean;
+}
+
+const { lang, detectLang = false, noindex = false } = Astro.props;
+const t = translations[lang];
+const canonical = absUrl(LANG_PATHS[lang]);
+const ogImage = absUrl(`/og/og-${lang}.png`);
+const otherLocales = Object.keys(LANG_PATHS).filter((l) => l !== lang).map((l) => translations[l].meta.locale);
+
+// ---------- Datos estructurados (JSON-LD) ----------
+const orgId = `${SITE_URL}/#organization`;
+const siteId = `${SITE_URL}/#website`;
+const appId = `${SITE_URL}/#software`;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': orgId,
+      name: 'Symbio',
+      url: `${SITE_URL}/`,
+      logo: { '@type': 'ImageObject', url: absUrl('/logo.png'), width: 512, height: 512 },
+      description: t.meta.description,
+      sameAs: [LINKEDIN_URL],
+      address: { '@type': 'PostalAddress', addressCountry: 'EC' },
+      areaServed: ['EC', { '@type': 'Place', name: 'Latin America' }],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'sales',
+        telephone: `+${WHATSAPP_NUMBER}`,
+        url: `https://wa.me/${WHATSAPP_NUMBER}`,
+        availableLanguage: ['es', 'en', 'pt'],
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': siteId,
+      url: `${SITE_URL}/`,
+      name: 'Symbio',
+      inLanguage: ['en', 'es', 'pt'],
+      publisher: { '@id': orgId },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      url: canonical,
+      name: t.meta.title,
+      description: t.meta.description,
+      inLanguage: HREFLANG[lang],
+      isPartOf: { '@id': siteId },
+      about: { '@id': appId },
+      primaryImageOfPage: { '@type': 'ImageObject', url: ogImage },
+    },
+    {
+      '@type': 'SoftwareApplication',
+      '@id': appId,
+      name: 'Symbio',
+      applicationCategory: 'BusinessApplication',
+      applicationSubCategory: 'AI technical support / Field service management',
+      operatingSystem: 'Web, WhatsApp',
+      description: t.faq.items[0].a,
+      featureList: t.features.items.map((f: any) => f.title),
+      inLanguage: ['es', 'en', 'pt'],
+      provider: { '@id': orgId },
+      url: canonical,
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${canonical}#faq`,
+      inLanguage: HREFLANG[lang],
+      mainEntity: t.faq.items.map((item: any) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: { '@type': 'Answer', text: item.a },
+      })),
+    },
+  ],
+};
+---
+<!DOCTYPE html>
+<html lang={HREFLANG[lang]} data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  {detectLang && (
+    <script is:inline>
+      // Redirección por idioma del navegador (solo en la raíz). Respeta la elección manual guardada
+      // y nunca redirige a bots, para que Google/IA indexen cada idioma en su propia URL.
+      (function () {
+        try {
+          var ok = /^(en|es|pt)$/;
+          if (/bot|crawl|spider|slurp|preview|facebookexternalhit|whatsapp|linkedin|lighthouse/i.test(navigator.userAgent)) return;
+          var param = (new URLSearchParams(location.search).get('lang') || '').toLowerCase();
+          var target = null;
+          if (ok.test(param)) {
+            target = param;
+            try { localStorage.setItem('symbio_lang', param); } catch (e) {}
+          } else {
+            var saved = null;
+            try { saved = (localStorage.getItem('symbio_lang') || '').toLowerCase(); } catch (e) {}
+            if (ok.test(saved)) {
+              target = saved;
+            } else {
+              var langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+              for (var i = 0; i < langs.length; i++) {
+                var code = (langs[i] || '').toLowerCase().split('-')[0];
+                if (ok.test(code)) { target = code; break; }
+              }
+            }
+          }
+          if (target && target !== 'en') location.replace('/' + target + '/' + location.hash);
+        } catch (e) {}
+      })();
+    </script>
+  )}
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{t.meta.title}</title>
+  <meta name="description" content={t.meta.description}>
+  <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'}>
+  <link rel="canonical" href={canonical}>
+  {Object.keys(LANG_PATHS).map((l) => (
+    <link rel="alternate" hreflang={HREFLANG[l]} href={absUrl(LANG_PATHS[l])}>
+  ))}
+  <link rel="alternate" hreflang="x-default" href={absUrl('/')}>
+  <link rel="alternate" type="text/markdown" title="Symbio for LLMs" href="/llms.txt">
+
+  <!-- Open Graph / redes sociales -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Symbio">
+  <meta property="og:url" content={canonical}>
+  <meta property="og:title" content={t.meta.title}>
+  <meta property="og:description" content={t.meta.description}>
+  <meta property="og:image" content={ogImage}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content={t.meta.ogAlt}>
+  <meta property="og:locale" content={t.meta.locale}>
+  {otherLocales.map((loc) => <meta property="og:locale:alternate" content={loc}>)}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={t.meta.title}>
+  <meta name="twitter:description" content={t.meta.description}>
+  <meta name="twitter:image" content={ogImage}>
+
+  <!-- Iconos -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#140B26">
+
+  <!-- Google Tag Manager (GA4 se configura dentro del contenedor) -->
+  <script is:inline define:vars={{ GTM_ID }}>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', GTM_ID);
+  </script>
+
+  <link rel="stylesheet" href="/css/styles.css?v=21">
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</head>
+
+<body>
+  <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <div id="root">
+    <slot />
+  </div>
+
+  <script>
+    // Animación de aparición (.reveal), equivalente al hook useReveal original.
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.16, rootMargin: '0px 0px -6% 0px' });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+    // Eventos para GTM/GA4: clics en WhatsApp, CTAs de demo y cambio de idioma.
+    const push = (data: Record<string, unknown>) => {
+      const w = window as any;
+      w.dataLayer = w.dataLayer || [];
+      w.dataLayer.push(data);
+    };
+    document.addEventListener('click', (ev) => {
+      const a = (ev.target as HTMLElement)?.closest?.('a');
+      if (!a) return;
+      const href = a.getAttribute('href') || '';
+      if (href.includes('wa.me/')) {
+        push({ event: 'whatsapp_click', link_location: a.dataset.wa || 'other', page_lang: document.documentElement.lang });
+      } else if (a.dataset.cta) {
+        push({ event: 'demo_cta_click', link_location: a.dataset.cta, page_lang: document.documentElement.lang });
+      } else if (a.dataset.lang) {
+        try { localStorage.setItem('symbio_lang', a.dataset.lang); } catch (e) {}
+        push({ event: 'language_change', from_lang: document.documentElement.lang, to_lang: a.dataset.lang });
+      }
+    });
+  </script>
+</body>
+</html>
+
